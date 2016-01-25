@@ -33,6 +33,19 @@ var TableLink = require('table-link');
 <script src="table-link.min.js"></script>
 ```
 
+###### Some CSS (Optional)
+``` CSS
+[data-href] {
+  cursor: pointer;
+}
+
+table [data-href]:hover,
+table [data-href]:hover > * {
+  background-color: #AAB7D1; // Put whatever color you want... Or no one.
+}
+```
+
+
 ## Usage
 
 In your table:
