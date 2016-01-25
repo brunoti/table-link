@@ -1,12 +1,25 @@
 var delegate = require('delegate');
 var closest = require('closest');
+window.closest = closest;
+
+var beforeFn = function() {
+    return true;
+};
+
+var afterFn = function() {};
 
 var TableLink = {
     init: function(selector) {
         return addTableLinks.call(this, selector);
     },
-    before: function(e) {},
-    after: function(e) {},
+    before: function(callback) {
+        beforeFn = callback.bind(this);
+        return this;
+    },
+    after: function(callback) {
+        afterFn = callback.bind(this);
+        return this;
+    }
 };
 
 function addTableLinks(selector) {
@@ -14,23 +27,26 @@ function addTableLinks(selector) {
     var _this = this;
     var body = document.body;
     return delegate(body, selector, 'click', function(e) {
-        var target = closest(e.delegateTarget, selector, true);
+        var target = closest(e.delegateTarget, 'tr, th, td', true);
 
-        if(!target) return null;
+        if (!target) return null;
 
         e.preventDefault();
-        _this.before(e)
+        var before = beforeFn();
 
-        if(target.dataset.target === 'blank') {
+        if (!before && typeof before != 'undefined') return null;
+
+        if (target.dataset.target === 'blank') {
             window.open(target.dataset.href).focus();
-        } else if(target.dataset.target === 'silent-blank') {
-            window.open(target.dataset.href);
-        } else if(!target.dataset.target || target.dataset.target === 'self') {
+        } else if (!target.dataset.target || target.dataset.target === 'self') {
+            location.href = target.dataset.href;
+        } else {
             location.href = target.dataset.href;
         }
 
-        _this.after(e);
+        afterFn();
     }, true);
 };
 
 module.exports = TableLink;
+
