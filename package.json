@@ -1,0 +1,36 @@
+{
+  "name": "table-link",
+  "version": "1.0.0",
+  "description": "A simple way to add links on your tableish elements like tr, th and td.",
+  "main": "TableLink.js",
+  "scripts": {
+    "build": "npm run build-js && npm run build-min",
+    "build-js": "browserify ./src/TableLink.js -s TableLink -o ./TableLink.js",
+    "watch": "watchify ./src/TableLink.js -s TableLink -o ./TableLink.js",
+    "build-min": "uglifyjs ./TableLink.js -o ./TableLink.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunoti/table-link.git"
+  },
+  "keywords": [
+    "table",
+    "link",
+    "datatable"
+  ],
+  "author": "Bruno Oliveira <bruno.oliveirati1@gmail.com> (https://github.com/brunoti)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brunoti/table-link/issues"
+  },
+  "homepage": "https://github.com/brunoti/table-link#readme",
+  "dependencies": {
+    "closest": "0.0.1",
+    "delegate": "^3.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.7.0"
+  }
+}

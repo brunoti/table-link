@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Link Test</title>
+</head>
+<body>
+    <table border="1" cellspacing="5" cellpadding="5">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Adress</th>
+            <th>Link</th>
+        </tr>
+        <tr data-href="http://github.com">
+            <td>Bruno</td>
+            <td>21</td>
+            <td>Wall Street, 879</td>
+            <td>http://github.comr</td>
+        </tr>
+        <tr data-href="http://google.com">
+            <td>Marcos</td>
+            <td>78</td>
+            <td>Baker Street, 308B</td>
+            <td>http://google.comr</td>
+        </tr>
+        <tr data-href="http://yahoo.com" data-target="blank">
+            <td>Johnny</td>
+            <td>25</td>
+            <td>Baker Street, 308B</td>
+            <td>http://yahoo.com</td>
+        </tr>
+    </table>
+</body>
+<script src="../TableLink.js"></script>
+<script>
+    TableLink.before = function() {
+        alert('O link será aberto.')
+    };
+    TableLink.after = function() {
+        alert('O link foi aberto.')
+    };
+    TableLink.init();
+</script>
+</html>
