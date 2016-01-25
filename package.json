@@ -2,12 +2,12 @@
   "name": "table-link",
   "version": "1.0.0",
   "description": "A simple way to add links on your tableish elements like tr, th and td.",
-  "main": "TableLink.js",
+  "main": "table-link.js",
   "scripts": {
     "build": "npm run build-js && npm run build-min",
-    "build-js": "browserify ./src/TableLink.js -s TableLink -o ./TableLink.js",
-    "watch": "watchify ./src/TableLink.js -s TableLink -o ./TableLink.js",
-    "build-min": "uglifyjs ./TableLink.js -o ./TableLink.min.js"
+    "build-js": "browserify ./src/TableLink.js -s TableLink -o ./table-link.js",
+    "watch": "watchify ./src/TableLink.js -s TableLink -o ./table-link.js",
+    "build-min": "uglifyjs ./table-link.js -o ./table-link.min.js"
   },
   "repository": {
     "type": "git",

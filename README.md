@@ -1,4 +1,6 @@
-# Table Link - The easiest way of adding links to your table rows/cells.
+# Table Link 
+
+:open_file_folder: The easiest to add links in your table rows, cells or elements that are not anchors!
 
 > Yeah man... Html can't do that for you out of the box. And it's sad. Very sad.
 
@@ -21,7 +23,7 @@ Or you can just [download a ZIP](https://github.com/brunoti/table-link/archive/m
 
 ## Setup
 
-###### Node or Browserify
+###### Browserify
 ``` js
 var TableLink = require('table-link');
 ```
@@ -32,9 +34,50 @@ var TableLink = require('table-link');
 ```
 
 ## Usage
+
+In your table:
+
+``` html
+<tr data-href="http://google.com">
+    <td>Some random crazy data.</td>
+</tr>
+```
+
+In your Javascript file:
+
 ``` js
 TableLink.init();
 // Soooooo simple...
+```
+
+You can make use of ```blank``` and ```self``` (default) for targeting the link:
+
+``` html
+<tr data-href="http://google.com" data-target="self">
+    <td>Some random crazy data.</td>
+</tr>
+```
+
+``` html
+<tr data-href="http://google.com" data-target="blank">
+    <td>Some random crazy data.</td>
+</tr>
+```
+
+###### Soon
+
+``` html
+<div data-href="http://google.com"></div>
+
+<span data-href="http://google.com"></span>
+
+<i data-href="http://google.com"></i>
+
+<header data-href="http://google.com"></header>
+
+<body data-href="http://google.com"></body>
+
+<h1 data-href="http://google.com"></h1>
 ```
 
 ### Before and After events
@@ -51,7 +94,7 @@ TableLink.before(function(element) {
 
 ``` js
 TableLink.after(function(element) {
-    return confirm('Can i open this link?');
+    console.log('The link was opened!');
 });
 ```
 
