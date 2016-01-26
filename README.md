@@ -1,6 +1,6 @@
 # Table Link 
 
-:open_file_folder: The easiest to add links in your table rows, cells or elements that are not anchors!
+The easiest way to add links in your table rows, cells or elements that are not anchors!
 
 > Yeah man... Html can't do that for you out of the box. And it's sad. Very sad.
 
@@ -110,10 +110,6 @@ TableLink.after(function(element) {
     console.log('The link was opened!');
 });
 ```
-
-### TableLink plugin uses
-
-Javascript and the [delegate](https://github.com/zenorocha/delegate/) plugin by [Zeno Rocha](https://github.com/zenorocha).
 
 ## License
 
