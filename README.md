@@ -41,7 +41,7 @@ var TableLink = require('table-link');
 
 table [data-href]:hover,
 table [data-href]:hover > * {
-  background-color: #AAB7D1; // Put whatever color you want... Or no one.
+  background-color: #AAB7D1; // Put whatever color you want... Or none.
 }
 ```
 
@@ -95,9 +95,9 @@ You can make use of ```blank``` and ```self``` (default) for targeting the link:
 
 ### Before and After events
 
-###### The before event can cancel the link opening by returning false.
+###### The 'before' event can cancel the link opening by returning false.
 
-The "element" argument is the clicked element that can be ```td```, ```tr``` or ```th```.
+The "element" argument is the clicked element, which can be ```td```, ```tr``` or ```th```.
 
 ``` js
 TableLink.before(function(element) {
@@ -113,4 +113,4 @@ TableLink.after(function(element) {
 
 ## License
 
-MIT
+This repository is under the MIT License
