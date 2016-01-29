@@ -1,6 +1,6 @@
 {
   "name": "table-link",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple way to add links on your tableish elements like tr, th and td.",
   "main": "table-link.js",
   "scripts": {
