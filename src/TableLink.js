@@ -1,6 +1,5 @@
 var delegate = require('delegate');
-var closest = require('closest');
-window.closest = closest;
+var matches = require('matches-selector');
 
 var beforeFn = function() {
     return true;
@@ -53,11 +52,12 @@ function addTableLinks(selector) {
     var _this = this;
     var body = document.body;
     return delegate(body, selector, 'click', function(e) {
-        var target = closest(e.delegateTarget, 'tr, th, td', true);
+        var target = e.delegateTarget;
 
-        if (!target) return null;
+        if (!matches(target, 'tr, th, td')) return null;
 
         e.preventDefault();
+
         var before = beforeFn();
 
         if (!before && typeof before != 'undefined') return null;

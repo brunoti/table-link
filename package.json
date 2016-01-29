@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/brunoti/table-link#readme",
   "dependencies": {
-    "closest": "0.0.1",
-    "delegate": "^3.0.1"
+    "delegate": "^3.0.1",
+    "matches-selector": "^1.0.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",

@@ -98,9 +98,38 @@ function listener(element, selector, type, callback) {
 module.exports = delegate;
 
 },{"closest":1}],4:[function(require,module,exports){
+'use strict';
+
+var proto = Element.prototype;
+var vendor = proto.matches
+  || proto.matchesSelector
+  || proto.webkitMatchesSelector
+  || proto.mozMatchesSelector
+  || proto.msMatchesSelector
+  || proto.oMatchesSelector;
+
+module.exports = match;
+
+/**
+ * Match `el` to `selector`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @return {Boolean}
+ * @api public
+ */
+
+function match(el, selector) {
+  if (vendor) return vendor.call(el, selector);
+  var nodes = el.parentNode.querySelectorAll(selector);
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i] == el) return true;
+  }
+  return false;
+}
+},{}],5:[function(require,module,exports){
 var delegate = require('delegate');
-var closest = require('closest');
-window.closest = closest;
+var matches = require('matches-selector');
 
 var beforeFn = function() {
     return true;
@@ -153,11 +182,12 @@ function addTableLinks(selector) {
     var _this = this;
     var body = document.body;
     return delegate(body, selector, 'click', function(e) {
-        var target = closest(e.delegateTarget, 'tr, th, td', true);
+        var target = e.delegateTarget;
 
-        if (!target) return null;
+        if (!matches(target, 'tr, th, td')) return null;
 
         e.preventDefault();
+
         var before = beforeFn();
 
         if (!before && typeof before != 'undefined') return null;
@@ -177,5 +207,5 @@ function addTableLinks(selector) {
 module.exports = TableLink;
 
 
-},{"closest":1,"delegate":3}]},{},[4])(4)
+},{"delegate":3,"matches-selector":4}]},{},[5])(5)
 });
