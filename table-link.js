@@ -184,7 +184,7 @@ function addTableLinks(selector) {
     return delegate(body, selector, 'click', function(e) {
         var target = e.delegateTarget;
 
-        if (!matches(target, 'tr, th, td')) return null;
+        if (!matches(e.target, 'tr, th, td')) return null;
 
         e.preventDefault();
 
