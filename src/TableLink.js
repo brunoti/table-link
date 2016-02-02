@@ -58,7 +58,7 @@ function addTableLinks(selector) {
 
         e.preventDefault();
 
-        var before = beforeFn();
+        var before = beforeFn(target);
 
         if (!before && typeof before != 'undefined') return null;
 
@@ -70,7 +70,7 @@ function addTableLinks(selector) {
             location.href = target.dataset.href;
         }
 
-        afterFn();
+        afterFn(target);
     }, true);
 };
 
