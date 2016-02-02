@@ -44,10 +44,9 @@
             </tr>
         </table>
     </div>
-    <script src="../table-link.min.js"></script>
+    <script src="../TableLink.js"></script>
     <script>
-        TableLink.before(function(element) {
-            console.log(element);
+        TableLink.before(function() {
             return confirm('Have i permission to open a new window?')
         });
         TableLink.init();
