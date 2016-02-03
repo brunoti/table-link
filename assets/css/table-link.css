@@ -1,0 +1,21 @@
+* {
+  font-family: Ubuntu, sans-serif;
+  font-weight: 300;
+  box-sizing: border-box;
+}
+
+.page-header {
+  width: 100%;
+  display: block;
+  background: #9A008D;
+  color: #FFF;
+  padding-top: 100px;
+  padding-left: 10%;
+  padding-bottom: 100px;
+}
+
+.page-header__title {
+  margin: 0;
+  font-weight: 500;
+}
+
