@@ -13,10 +13,11 @@ var TableLink = {
      * event on the rows that maches the selector param.
      *
      * @param {String} [selector="[data-href]"] - The selector that find the rows with links
+     * @param {String} [matches="tr,td,th"] - The elements that can become clickable
      */
-    init: function(selector) {
-        selector = selector || '[data-href]';
-        return addTableLinks.call(this, selector);
+    init: function(matchString) {
+        matchString = matchString ? matchString + ',tr,th,td' : 'tr,th,td';
+        return addTableLinks.call(this, matchString);
     },
     /**
      * Sets the function to be executed before the  window/link
@@ -46,15 +47,16 @@ var TableLink = {
  * Add the event delegation for listen to clicks on the elements,
  * that matches the passed selector, and open the link.
  *
- * @param {String} selector - The selector that represents the rows with links
+* @param {String} matches - The elements that can become clickable
  */
-function addTableLinks(selector) {
+function addTableLinks(matchString) {
     var _this = this;
     var body = document.body;
+    var selector = '[data-href]';
     return delegate(body, selector, 'click', function(e) {
         var target = e.delegateTarget;
 
-        if (!matches(e.target, 'tr, th, td')) return null;
+        if (!matches(e.target, matchString)) return null;
 
         e.preventDefault();
 

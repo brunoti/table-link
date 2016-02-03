@@ -77,27 +77,26 @@ You can make use of ```blank``` and ```self``` (default) for targeting the link:
 </tr>
 ```
 
-###### Soon
+## Using in other elements
+
+###### Put the selector to find those as the first ```TableLink.init()``` parameter like this:
+
+``` js
+TableLink.init('h1, div, span');
+```
 
 ``` html
+<h1 data-href="http://google.com"></h1>
+
 <div data-href="http://google.com"></div>
 
 <span data-href="http://google.com"></span>
-
-<i data-href="http://google.com"></i>
-
-<header data-href="http://google.com"></header>
-
-<body data-href="http://google.com"></body>
-
-<h1 data-href="http://google.com"></h1>
 ```
-
 ### Before and After events
 
 ###### The 'before' event can cancel the link opening by returning false.
 
-The "element" argument is the clicked element, which can be ```td```, ```tr``` or ```th```.
+The "element" argument is the clicked element, which can be ```td```, ```tr```,  ```th``` or some element that matches the selector, if it was passed.
 
 ``` js
 TableLink.before(function(element) {
