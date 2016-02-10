@@ -96,16 +96,25 @@ TableLink.init('h1, div, span');
 
 ###### The 'before' event can cancel the link opening by returning false.
 
-The "element" argument is the clicked element, which can be ```td```, ```tr```,  ```th``` or some element that matches the selector, if it was passed.
+The "element" argument is the delegate target, which can be ```td```, ```tr```,  ```th``` or any element that matches the selector, if it was passed.
+The "target" argument is the real event target. The sencond can be used to see if the clicked element is the delegated element or some other element inside the delegated element.
 
 ``` js
-TableLink.before(function(element) {
+TableLink.before(function(element, target) {
     return confirm('Can i open this link?');
 });
 ```
 
 ``` js
-TableLink.after(function(element) {
+TableLink.before(function(element, target) {
+  // Cancel the action if the clicked element (maybe a cell inside a row[data-href])
+  // has the ```.no-link``` class.
+  return !target.classList.contains('no-link');
+});
+```
+
+``` js
+TableLink.after(function(element, target) {
     console.log('The link was opened!');
 });
 ```
