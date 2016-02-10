@@ -54,25 +54,28 @@ function addTableLinks(matchString) {
     var body = document.body;
     var selector = '[data-href]';
     return delegate(body, selector, 'click', function(e) {
-        var target = e.delegateTarget;
+        var element = e.delegateTarget;
+        var target = e.target;
 
-        if (!matches(e.target, matchString)) return null;
+        if (!matches(target, matchString)) {
+          return null;
+        }
 
         e.preventDefault();
 
-        var before = beforeFn(target);
+        var before = beforeFn(element, target);
 
         if (!before && typeof before != 'undefined') return null;
 
-        if (target.dataset.target === 'blank') {
-            window.open(target.dataset.href).focus();
-        } else if (!target.dataset.target || target.dataset.target === 'self') {
-            location.href = target.dataset.href;
+        if (element.dataset.target === 'blank') {
+            window.open(element.dataset.href).focus();
+        } else if (!element.dataset.target || element.dataset.target === 'self') {
+            location.href = element.dataset.href;
         } else {
-            location.href = target.dataset.href;
+            location.href = element.dataset.href;
         }
 
-        afterFn(target);
+        afterFn(element, target);
     }, true);
 };
 
