@@ -11,19 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brunoti/table-link.git"
+    "url": "git+https://github.com/brulivera/table-link.git"
   },
   "keywords": [
     "table",
     "link",
     "datatable"
   ],
-  "author": "Bruno Oliveira <bruno.oliveirati1@gmail.com> (https://github.com/brunoti)",
+  "author": "Bruno Oliveira <bruliveira0@gmail.com> (https://github.com/brulivera)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/brunoti/table-link/issues"
+    "url": "https://github.com/brulivera/table-link/issues"
   },
-  "homepage": "https://github.com/brunoti/table-link#readme",
+  "homepage": "https://github.com/brulivera/table-link#readme",
   "dependencies": {
     "delegate": "^3.0.1",
     "matches-selector": "^1.0.0"
