@@ -7,7 +7,8 @@
     "build": "npm run build-js && npm run build-min",
     "build-js": "browserify ./src/TableLink.js -s TableLink -o ./table-link.js",
     "watch": "watchify ./src/TableLink.js -s TableLink -o ./table-link.js",
-    "build-min": "uglifyjs ./table-link.js -o ./table-link.min.js"
+    "build-min": "uglifyjs ./table-link.js -o ./table-link.min.js",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -29,8 +30,17 @@
     "matches-selector": "^1.0.0"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
     "browserify": "^13.0.0",
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.js"
+    ],
+    "source": [
+      "src/**/*"
+    ]
   }
 }
