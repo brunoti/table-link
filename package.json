@@ -32,15 +32,21 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "browserify": "^13.0.0",
+    "jsdom": "^9.5.0",
+    "simulant": "^0.2.2",
+    "sinon": "^1.17.6",
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },
   "ava": {
     "files": [
-      "tests/**/*.js"
+      "test/**/*.js"
     ],
     "source": [
       "src/**/*"
+    ],
+    "require": [
+      "./test/helpers/browser-mock.js"
     ]
   }
 }
