@@ -146,6 +146,7 @@ var TableLink = {
      * @param {String} [matches="tr,td,th"] - The elements that can become clickable
      */
     init: function(matchString) {
+        console.log('initiated');
         matchString = matchString ? matchString + ',tr,th,td' : 'tr,th,td';
         return addTableLinks.call(this, matchString);
     },
@@ -168,6 +169,7 @@ var TableLink = {
      * @param {Function} callback - The function to execute after open the link.
      */
     after: function(callback) {
+
         afterFn = callback.bind(this);
         return this;
     }
@@ -183,29 +185,31 @@ function addTableLinks(matchString) {
     var _this = this;
     var body = document.body;
     var selector = '[data-href]';
+
     return delegate(body, selector, 'click', function(e) {
         var element = e.delegateTarget;
-        var target = e.target;
+        var eventTarget = e.target;
+        var href = element.getAttribute('data-href');
+        var target = element.getAttribute('data-target');
 
-        if (!matches(target, matchString)) {
+        if (!matches(eventTarget, matchString)) {
           return null;
         }
 
         e.preventDefault();
 
-        var before = beforeFn(element, target);
+        var before = beforeFn(element, eventTarget);
 
         if (!before && typeof before != 'undefined') return null;
 
-        if (element.dataset.target === 'blank') {
-            window.open(element.dataset.href).focus();
-        } else if (!element.dataset.target || element.dataset.target === 'self') {
-            location.href = element.dataset.href;
+        if (target === 'blank') {
+            window.open(href).focus();
         } else {
-            location.href = element.dataset.href;
+            location.assign(href);
+            console.log('after assign')
         }
 
-        afterFn(element, target);
+        afterFn(element, eventTarget);
     }, true);
 };
 
