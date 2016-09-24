@@ -1,4 +1,7 @@
 # Table Link 
+[![Build Status](https://travis-ci.org/brunoti/table-link.svg?branch=master)](https://travis-ci.org/brunoti/table-link)
+[![Coverage Status](https://coveralls.io/repos/github/brunoti/table-link/badge.svg)](https://coveralls.io/github/brunoti/table-link)
+[![Made with vim](https://img.shields.io/badge/made_with-vim-brightgreen.svg?style=flat)](http://www.vim.org/)
 
 The easiest way to add links in your table rows, cells or elements that are not anchors!
 
