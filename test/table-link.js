@@ -11,17 +11,23 @@ test.before(() => {
         <td></td>
       </tr>
         <tr id="blank" data-href="http://google.com.br" data-target="blank">
-          <td></td>
+          <td>
+            <button></button>
+          </td>
         </tr>
     </tbody>
   </table>
-  <span data-href="http://google.com.br" data-target="blank"></span>
-  <div data-href="http://google.com.br"></div>
+  <span data-href="http://google.com.br" data-target="blank"> </span>
+  <div data-href="http://google.com.br">
+    <button></button>
+  </div>
 `
   global.rowBlank = document.getElementById('blank')
   global.rowSelf = document.getElementById('self')
   global.span = document.querySelector('span')
   global.div = document.querySelector('div')
+  global.buttonInsideRow = document.querySelector('tr button')
+  global.buttonInsideDiv = document.querySelector('div button')
 })
 
 test.beforeEach(() => {
@@ -31,9 +37,9 @@ test.beforeEach(() => {
 })
 
 test.afterEach(() => {
-  global.event.destroy();
-  window.open.restore();
-  location.assign.restore();
+  global.event.destroy()
+  window.open.restore()
+  location.assign.restore()
 })
 
 test('When a table row with [data-taget="blank"] a new window sould be opened', t => {
@@ -50,39 +56,38 @@ test('When a table row with [data-taget="self"] the page should change', t => {
 })
 
 test('When a TableLink row is clicked the after and before callback should be called', t => {
-  let before = sinon.stub();
-  let after = sinon.stub();
+  let before = sinon.stub()
+  let after = sinon.stub()
 
-  TableLink.before(before);
-  TableLink.after(after);
+  TableLink.before(before)
+  TableLink.after(after)
 
   simulant.fire(rowSelf, 'click')
   simulant.fire(rowBlank, 'click')
 
-  t.true(before.calledTwice);
-  t.true(after.calledTwice);
-});
+  t.true(before.calledTwice)
+  t.true(after.calledTwice)
+})
 
 test('When the before callback returns false it should cancel the link opening', t => {
-  let before = sinon.stub().returns(false);
-  let after = sinon.stub();
+  let before = sinon.stub().returns(false)
+  let after = sinon.stub()
 
-  TableLink.before(before);
-  TableLink.after(after);
+  TableLink.before(before)
+  TableLink.after(after)
 
   simulant.fire(rowSelf, 'click')
   simulant.fire(rowBlank, 'click')
 
-  t.true(before.called);
-  t.false(after.called);
-  t.false(window.open.called);
-  t.false(location.assign.called);
-});
+  t.true(before.called)
+  t.false(after.called)
+  t.false(window.open.called)
+  t.false(location.assign.called)
+})
 
 test('If a selector is passed it should turn on a link too', t => {
-  event.destroy();
-
-  TableLink.init('div, span');
+  event.destroy()
+  global.event = TableLink.init('div, span')
 
   simulant.fire(span, 'click')
   simulant.fire(div, 'click')
@@ -92,5 +97,24 @@ test('If a selector is passed it should turn on a link too', t => {
   t.is(window.location.href, 'about:blank')
   t.true(location.assign.calledOnce)
   t.true(location.assign.calledWith(rowSelf.getAttribute('data-href')))
-});
+})
+
+test('If the clicked target fo not match the selector it nothing should happens', t => {
+  event.destroy()
+  global.event = TableLink.init('div, span')
+
+  let before = sinon.spy()
+  let after = sinon.spy()
+
+  TableLink.before(before)
+  TableLink.after(after)
+
+  simulant.fire(buttonInsideRow, 'click')
+  simulant.fire(buttonInsideDiv, 'click')
+
+  t.false(window.open.calledOnce)
+  t.false(location.assign.calledOnce)
+  t.false(before.called)
+  t.false(after.called)
+})
 

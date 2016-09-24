@@ -8,23 +8,23 @@
     "build-js": "browserify ./src/TableLink.js -s TableLink -o ./table-link.js",
     "watch": "watchify ./src/TableLink.js -s TableLink -o ./table-link.js",
     "build-min": "uglifyjs ./table-link.js -o ./table-link.min.js",
-    "test": "ava"
+    "test": "nyc ava -v"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brulivera/table-link.git"
+    "url": "git+https://github.com/brunoti/table-link.git"
   },
   "keywords": [
     "table",
     "link",
     "datatable"
   ],
-  "author": "Bruno Oliveira <bruliveira0@gmail.com> (https://github.com/brulivera)",
+  "author": "Bruno Oliveira <bruno.oliveirati1@gmail.com> (https://github.com/brunoti)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/brulivera/table-link/issues"
+    "url": "https://github.com/brunoti/table-link/issues"
   },
-  "homepage": "https://github.com/brulivera/table-link#readme",
+  "homepage": "https://github.com/brunoti/table-link#readme",
   "dependencies": {
     "delegate": "^3.0.1",
     "matches-selector": "^1.0.0",
@@ -33,8 +33,10 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "browserify": "^13.0.0",
+    "coveralls": "^2.11.14",
     "jsdom": "^9.5.0",
     "node-browser-environment": "^2.0.6",
+    "nyc": "^8.3.0",
     "simulant": "^0.2.2",
     "sinon": "^1.17.6",
     "uglifyjs": "^2.4.10",
