@@ -55,9 +55,9 @@ function addTableLinks(matchString) {
   var body = document.body;
   var selector = '[data-href]';
 
-  return delegate(body, selector, 'click', function(e) {
-    var element = e.delegateTarget;
-    var eventTarget = e.target;
+  return delegate(body, selector, 'click', function(event) {
+    var element = event.delegateTarget;
+    var eventTarget = event.target;
     var href = element.getAttribute('data-href');
     var target = element.getAttribute('data-target');
 
@@ -65,9 +65,9 @@ function addTableLinks(matchString) {
       return null;
     }
 
-    e.preventDefault();
+    event.preventDefault();
 
-    var before = beforeFn(element, eventTarget);
+    var before = beforeFn(event);
 
     if (before === false) {
       return null;
@@ -75,11 +75,11 @@ function addTableLinks(matchString) {
 
     if (target === 'blank') {
       let newWindow = window.open(href);
-      afterFn(element, eventTarget);
+      afterFn(event);
       newWindow.focus();
     } else {
       location.assign(href);
-      afterFn(element, eventTarget);
+      afterFn(event);
     }
 
   }, true);

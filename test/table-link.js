@@ -118,3 +118,16 @@ test('If the clicked target fo not match the selector it nothing should happens'
   t.false(after.called)
 })
 
+test('The callbacks should have the event object as the argument', t => {
+  let before = sinon.stub()
+  let after = sinon.stub()
+
+  TableLink.before(before)
+  TableLink.after(after)
+
+  simulant.fire(rowSelf, 'click')
+
+  t.true(before.lastCall.args[0] instanceof Event)
+  t.true(after.lastCall.args[0] instanceof Event)
+});
+
