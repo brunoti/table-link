@@ -74,7 +74,7 @@ function addTableLinks(matchString) {
     }
 
     if (target === 'blank') {
-      let newWindow = window.open(href);
+      var newWindow = window.open(href);
       afterFn(event);
       newWindow.focus();
     } else {
