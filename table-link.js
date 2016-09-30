@@ -158,38 +158,8 @@ function listener(element, selector, type, callback) {
 module.exports = delegate;
 
 },{"component-closest":1}],5:[function(require,module,exports){
-'use strict';
-
-var proto = Element.prototype;
-var vendor = proto.matches
-  || proto.matchesSelector
-  || proto.webkitMatchesSelector
-  || proto.mozMatchesSelector
-  || proto.msMatchesSelector
-  || proto.oMatchesSelector;
-
-module.exports = match;
-
-/**
- * Match `el` to `selector`.
- *
- * @param {Element} el
- * @param {String} selector
- * @return {Boolean}
- * @api public
- */
-
-function match(el, selector) {
-  if (vendor) return vendor.call(el, selector);
-  var nodes = el.parentNode.querySelectorAll(selector);
-  for (var i = 0; i < nodes.length; i++) {
-    if (nodes[i] == el) return true;
-  }
-  return false;
-}
-},{}],6:[function(require,module,exports){
 var delegate = require('delegate');
-var matches = require('matches-selector');
+var matches = require('component-matches-selector');
 
 var beforeFn, afterFn;
 
@@ -278,5 +248,5 @@ function addTableLinks(matchString) {
 module.exports = TableLink;
 
 
-},{"delegate":4,"matches-selector":5}]},{},[6])(6)
+},{"component-matches-selector":2,"delegate":4}]},{},[5])(5)
 });

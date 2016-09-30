@@ -1,5 +1,5 @@
 var delegate = require('delegate');
-var matches = require('matches-selector');
+var matches = require('component-matches-selector');
 
 var beforeFn, afterFn;
 

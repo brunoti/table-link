@@ -1,7 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon'
 import simulant from 'simulant'
-import TableLink from '../src/TableLink'
+import TableLink from '../'
 
 test.before(() => {
   document.body.innerHTML = `

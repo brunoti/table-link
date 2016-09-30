@@ -26,9 +26,7 @@
   },
   "homepage": "https://github.com/brunoti/table-link#readme",
   "dependencies": {
-    "delegate": "^3.0.1",
-    "matches-selector": "^1.0.0",
-    "node-browser-environment": "^2.0.6"
+    "delegate": "^3.0.1"
   },
   "devDependencies": {
     "ava": "^0.16.0",
