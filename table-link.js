@@ -1,42 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.TableLink = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * Module Dependencies
- */
-
-try {
-  var matches = require('matches-selector')
-} catch (err) {
-  var matches = require('component-matches-selector')
-}
-
-/**
- * Export `closest`
- */
-
-module.exports = closest
-
-/**
- * Closest
- *
- * @param {Element} el
- * @param {String} selector
- * @param {Element} scope (optional)
- */
-
-function closest (el, selector, scope) {
-  scope = scope || document.documentElement;
-
-  // walk up the dom
-  while (el && el !== scope) {
-    if (matches(el, selector)) return el;
-    el = el.parentNode;
-  }
-
-  // check scope for match
-  return matches(el, selector) ? el : null;
-}
-
-},{"component-matches-selector":2,"matches-selector":2}],2:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.TableLink = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -88,7 +50,7 @@ function match(el, selector) {
   return false;
 }
 
-},{"component-query":3,"query":3}],3:[function(require,module,exports){
+},{"component-query":2,"query":2}],2:[function(require,module,exports){
 function one(selector, el) {
   return el.querySelector(selector);
 }
@@ -111,8 +73,43 @@ exports.engine = function(obj){
   return exports;
 };
 
+},{}],3:[function(require,module,exports){
+var DOCUMENT_NODE_TYPE = 9;
+
+/**
+ * A polyfill for Element.matches()
+ */
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
+    var proto = Element.prototype;
+
+    proto.matches = proto.matchesSelector ||
+                    proto.mozMatchesSelector ||
+                    proto.msMatchesSelector ||
+                    proto.oMatchesSelector ||
+                    proto.webkitMatchesSelector;
+}
+
+/**
+ * Finds the closest parent that matches a selector.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @return {Function}
+ */
+function closest (element, selector) {
+    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
+        if (typeof element.matches === 'function' &&
+            element.matches(selector)) {
+          return element;
+        }
+        element = element.parentNode;
+    }
+}
+
+module.exports = closest;
+
 },{}],4:[function(require,module,exports){
-var closest = require('component-closest');
+var closest = require('./closest');
 
 /**
  * Delegates event to a selector.
@@ -124,7 +121,7 @@ var closest = require('component-closest');
  * @param {Boolean} useCapture
  * @return {Object}
  */
-function delegate(element, selector, type, callback, useCapture) {
+function _delegate(element, selector, type, callback, useCapture) {
     var listenerFn = listener.apply(this, arguments);
 
     element.addEventListener(type, listenerFn, useCapture);
@@ -134,6 +131,40 @@ function delegate(element, selector, type, callback, useCapture) {
             element.removeEventListener(type, listenerFn, useCapture);
         }
     }
+}
+
+/**
+ * Delegates event to a selector.
+ *
+ * @param {Element|String|Array} [elements]
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @param {Boolean} useCapture
+ * @return {Object}
+ */
+function delegate(elements, selector, type, callback, useCapture) {
+    // Handle the regular Element usage
+    if (typeof elements.addEventListener === 'function') {
+        return _delegate.apply(null, arguments);
+    }
+
+    // Handle Element-less usage, it defaults to global delegation
+    if (typeof type === 'function') {
+        // Use `document` as the first parameter, then apply arguments
+        // This is a short way to .unshift `arguments` without running into deoptimizations
+        return _delegate.bind(null, document).apply(null, arguments);
+    }
+
+    // Handle Selector-based usage
+    if (typeof elements === 'string') {
+        elements = document.querySelectorAll(elements);
+    }
+
+    // Handle Array-like based usage
+    return Array.prototype.map.call(elements, function (element) {
+        return _delegate(element, selector, type, callback, useCapture);
+    });
 }
 
 /**
@@ -147,7 +178,7 @@ function delegate(element, selector, type, callback, useCapture) {
  */
 function listener(element, selector, type, callback) {
     return function(e) {
-        e.delegateTarget = closest(e.target, selector, true);
+        e.delegateTarget = closest(e.target, selector);
 
         if (e.delegateTarget) {
             callback.call(element, e);
@@ -157,7 +188,7 @@ function listener(element, selector, type, callback) {
 
 module.exports = delegate;
 
-},{"component-closest":1}],5:[function(require,module,exports){
+},{"./closest":3}],5:[function(require,module,exports){
 var delegate = require('delegate');
 var matches = require('component-matches-selector');
 
@@ -211,11 +242,10 @@ var TableLink = {
  * @param {String} matches - The elements that can become clickable
  */
 function addTableLinks(matchString) {
-  var _this = this;
   var body = document.body;
   var selector = '[data-href]';
 
-  return delegate(body, selector, 'click', function(event) {
+  return delegate(body, selector, 'mouseup', function(event) {
     var element = event.delegateTarget;
     var eventTarget = event.target;
     var href = element.getAttribute('data-href');
@@ -233,20 +263,21 @@ function addTableLinks(matchString) {
       return null;
     }
 
-    if (target === 'blank') {
+    if (event.ctrlKey || event.button === 1 || target === 'blank') {
       var newWindow = window.open(href);
       afterFn(event);
       newWindow.focus();
-    } else {
-      location.assign(href);
-      afterFn(event);
+
+      return;
     }
 
+    location.assign(href);
+    afterFn(event);
   }, true);
 };
 
 module.exports = TableLink;
 
 
-},{"component-matches-selector":2,"delegate":4}]},{},[5])(5)
+},{"component-matches-selector":1,"delegate":4}]},{},[5])(5)
 });

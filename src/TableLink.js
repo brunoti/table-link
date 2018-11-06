@@ -51,11 +51,10 @@ var TableLink = {
  * @param {String} matches - The elements that can become clickable
  */
 function addTableLinks(matchString) {
-  var _this = this;
   var body = document.body;
   var selector = '[data-href]';
 
-  return delegate(body, selector, 'click', function(event) {
+  return delegate(body, selector, 'mouseup', function(event) {
     var element = event.delegateTarget;
     var eventTarget = event.target;
     var href = element.getAttribute('data-href');
@@ -73,15 +72,16 @@ function addTableLinks(matchString) {
       return null;
     }
 
-    if (target === 'blank') {
+    if (event.ctrlKey || event.button === 1 || target === 'blank') {
       var newWindow = window.open(href);
       afterFn(event);
       newWindow.focus();
-    } else {
-      location.assign(href);
-      afterFn(event);
+
+      return;
     }
 
+    location.assign(href);
+    afterFn(event);
   }, true);
 };
 

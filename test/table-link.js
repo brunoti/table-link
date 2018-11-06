@@ -22,6 +22,7 @@ test.before(() => {
     <button></button>
   </div>
 `
+  global.eventName = 'mouseup';
   global.rowBlank = document.getElementById('blank')
   global.rowSelf = document.getElementById('self')
   global.span = document.querySelector('span')
@@ -42,15 +43,15 @@ test.afterEach(() => {
   location.assign.restore()
 })
 
-test('When a table row with [data-taget="blank"] a new window sould be opened', t => {
-  simulant.fire(rowBlank, 'click')
+test('When a table row with [data-target="blank"] a new window should be opened', t => {
+  simulant.fire(rowBlank, eventName)
   t.true(window.open.calledOnce)
   t.true(window.open.calledWith(rowBlank.getAttribute('data-href')))
   t.is(window.location.href, 'about:blank')
 })
 
-test('When a table row with [data-taget="self"] the page should change', t => {
-  simulant.fire(rowSelf, 'click')
+test('When a table row with [data-target="self"] the page should change', t => {
+  simulant.fire(rowSelf, eventName)
   t.true(location.assign.calledOnce)
   t.true(location.assign.calledWith(rowSelf.getAttribute('data-href')))
 })
@@ -62,8 +63,8 @@ test('When a TableLink row is clicked the after and before callback should be ca
   TableLink.before(before)
   TableLink.after(after)
 
-  simulant.fire(rowSelf, 'click')
-  simulant.fire(rowBlank, 'click')
+  simulant.fire(rowSelf, eventName)
+  simulant.fire(rowBlank, eventName)
 
   t.true(before.calledTwice)
   t.true(after.calledTwice)
@@ -76,8 +77,8 @@ test('When the before callback returns false it should cancel the link opening',
   TableLink.before(before)
   TableLink.after(after)
 
-  simulant.fire(rowSelf, 'click')
-  simulant.fire(rowBlank, 'click')
+  simulant.fire(rowSelf, eventName)
+  simulant.fire(rowBlank, eventName)
 
   t.true(before.called)
   t.false(after.called)
@@ -89,8 +90,8 @@ test('If a selector is passed it should turn on a link too', t => {
   event.destroy()
   global.event = TableLink.init('div, span')
 
-  simulant.fire(span, 'click')
-  simulant.fire(div, 'click')
+  simulant.fire(span, eventName)
+  simulant.fire(div, eventName)
 
   t.true(window.open.calledOnce)
   t.true(window.open.calledWith(rowBlank.getAttribute('data-href')))
@@ -99,7 +100,7 @@ test('If a selector is passed it should turn on a link too', t => {
   t.true(location.assign.calledWith(rowSelf.getAttribute('data-href')))
 })
 
-test('If the clicked target fo not match the selector it nothing should happens', t => {
+test('If the clicked target does not matches the selector, nothing should happens', t => {
   event.destroy()
   global.event = TableLink.init('div, span')
 
@@ -109,8 +110,8 @@ test('If the clicked target fo not match the selector it nothing should happens'
   TableLink.before(before)
   TableLink.after(after)
 
-  simulant.fire(buttonInsideRow, 'click')
-  simulant.fire(buttonInsideDiv, 'click')
+  simulant.fire(buttonInsideRow, eventName)
+  simulant.fire(buttonInsideDiv, eventName)
 
   t.false(window.open.calledOnce)
   t.false(location.assign.calledOnce)
@@ -125,9 +126,22 @@ test('The callbacks should have the event object as the argument', t => {
   TableLink.before(before)
   TableLink.after(after)
 
-  simulant.fire(rowSelf, 'click')
+  simulant.fire(rowSelf, eventName)
 
   t.true(before.lastCall.args[0] instanceof Event)
   t.true(after.lastCall.args[0] instanceof Event)
-});
+})
 
+test('When a table row was clicked with ctrlKey a new window should be opened', t => {
+  simulant.fire(rowSelf, eventName, { ctrlKey: true })
+  t.true(window.open.calledOnce)
+  t.true(window.open.calledWith(rowSelf.getAttribute('data-href')))
+  t.is(window.location.href, 'about:blank')
+})
+
+test('When a table row was clicked with middle button a new window should be opened', t => {
+  simulant.fire(rowSelf, eventName, { button: 1 })
+  t.true(window.open.calledOnce)
+  t.true(window.open.calledWith(rowSelf.getAttribute('data-href')))
+  t.is(window.location.href, 'about:blank')
+})

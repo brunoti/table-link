@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/brunoti/table-link#readme",
   "dependencies": {
+    "component-matches-selector": "^0.1.6",
     "delegate": "^3.0.1"
   },
   "devDependencies": {
@@ -37,7 +38,7 @@
     "nyc": "^8.3.0",
     "simulant": "^0.2.2",
     "sinon": "^1.17.6",
-    "uglifyjs": "^2.4.10",
+    "uglify-js": "^3.4.9",
     "watchify": "^3.7.0"
   },
   "ava": {
